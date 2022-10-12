@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from .mixins import ListRetrieveViewSet
+from .serializers import OrganizationSerializer
+from .models import Organization
 
-# Create your views here.
+
+class OrganizationViewSet(ListRetrieveViewSet):
+    serializer_class = OrganizationSerializer
+    queryset = Organization.objects.all()
+    http_method_names = ('get',)

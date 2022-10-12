@@ -88,15 +88,27 @@ class PriceProduct(models.Model):
 
 
 class Organization(models.Model):
-    name = models.CharField('Предприятие', max_length=30)
+    name = models.CharField('Название', max_length=30)
     description = models.TextField('Описание')
     network = models.ForeignKey(
         NetworkEnterprises,
         on_delete=models.CASCADE,
         verbose_name='Сеть предприятий'
     )
+    district = models.ManyToManyField(
+        DistrictCity,
+        related_name='organizations',
+        verbose_name='Районы'
+    )
     product = models.ManyToManyField(
         PriceProduct,
         related_name='organizations',
         verbose_name='Продукты'
     )
+
+    class Meta:
+        verbose_name = 'Предприятие'
+        verbose_name_plural = 'Предприятия'
+
+    def __str__(self):
+        return self.name

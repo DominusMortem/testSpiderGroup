@@ -1,26 +1,23 @@
-from django.contrib.admin import ModelAdmin, display, register
-from django.db.models import Count, Sum
+from django.contrib.admin import site, ModelAdmin, display, register
 
 from .models import (
-DistrictCity,
-Category,
-NetworkEnterprises,
-Product,
-PriceProduct,
-Organization
+    DistrictCity,
+    Category,
+    NetworkEnterprises,
+    Product,
+    PriceProduct,
+    Organization
 )
 
-
-register(DistrictCity)
-register(Category)
-register(NetworkEnterprises)
-register(Product)
+site.register(DistrictCity)
+site.register(Category)
+site.register(NetworkEnterprises)
+site.register(Product)
 
 
 @register(PriceProduct)
 class PriceProductAdmin(ModelAdmin):
-    list_display = ('id', 'get_product', 'get_category', 'get_organizations', 'price',)
-    list_filter = ('get_product', 'get_category', 'get_organizations')
+    list_display = ('get_product', 'get_category', 'price',)
     search_fields = ('get_product',)
     ordering = ('price',)
 
@@ -32,12 +29,8 @@ class PriceProductAdmin(ModelAdmin):
     def get_category(self, obj):
         return obj.product.category.name
 
-    @display(description='Организация')
-    def get_organizations(self, obj):
-        return obj.organizations.name
-
 
 @register(Organization)
 class OrganizationAdmin(ModelAdmin):
-    list_display = ('name', 'description', 'network', 'product')
+    list_display = ('name', 'description', 'network',)
     list_filter = ('name', 'network', 'product',)

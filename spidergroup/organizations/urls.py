@@ -2,11 +2,19 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from .views import (
-    OrganizationViewSet
+    OrganizationViewSet,
+    DistrictCityViewSet,
+    ProductViewSet
 )
 
 router = DefaultRouter()
-router.register('organizations', OrganizationViewSet, basename='organizations')
+router.register('districts', DistrictCityViewSet, basename='districts')
+router.register(
+    r'districts/(?P<district_id>\d+)/organizations',
+    OrganizationViewSet,
+    basename='organizations'
+)
+router.register('products', ProductViewSet, basename='products')
 
 app_name = 'organizations'
 

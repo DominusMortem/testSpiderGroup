@@ -1,7 +1,6 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 
-
 PRODUCT_MIN_PRICE = 1
 
 
@@ -93,6 +92,7 @@ class Organization(models.Model):
     network = models.ForeignKey(
         NetworkEnterprises,
         on_delete=models.CASCADE,
+        related_name='organizations',
         verbose_name='Сеть предприятий'
     )
     district = models.ManyToManyField(

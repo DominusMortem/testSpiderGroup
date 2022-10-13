@@ -1,4 +1,3 @@
-from django.shortcuts import get_object_or_404
 from rest_framework.serializers import ModelSerializer
 
 from .models import (
@@ -9,6 +8,13 @@ from .models import (
     PriceProduct,
     Organization
 )
+
+
+class NetworkEnterprisesSerializer(ModelSerializer):
+
+    class Meta:
+        model = NetworkEnterprises
+        fields = ('id', 'name')
 
 
 class DistrictCitySerializer(ModelSerializer):
@@ -25,13 +31,6 @@ class CategorySerializer(ModelSerializer):
         fields = '__all__'
 
 
-class NetworkEnterprisesSerializer(ModelSerializer):
-
-    class Meta:
-        model = NetworkEnterprises
-        fields = '__all__'
-
-
 class ProductSerializer(ModelSerializer):
     category = CategorySerializer()
 
@@ -39,13 +38,22 @@ class ProductSerializer(ModelSerializer):
         model = Product
         fields = ('id', 'name', 'category',)
 
+    def create(self, validated_data):
+        category = validated_data.pop('category')
+        category, *_ = Category.objects.get_or_create(**category)
+        product, *_ = Product.objects.get_or_create(
+            category=category,
+            **validated_data
+        )
+        return product
+
 
 class PriceProductSerializer(ModelSerializer):
     product = ProductSerializer()
 
     class Meta:
         model = PriceProduct
-        fields = ('id', 'product')
+        fields = ('id', 'product', 'price',)
 
 
 class OrganizationSerializer(ModelSerializer):
@@ -55,4 +63,4 @@ class OrganizationSerializer(ModelSerializer):
 
     class Meta:
         model = Organization
-        fields = ('id', 'name', 'network', 'district', 'product')
+        fields = ('id', 'name', 'network', 'district', 'product',)

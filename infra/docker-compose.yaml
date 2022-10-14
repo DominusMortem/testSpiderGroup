@@ -8,10 +8,10 @@ services:
     env_file: 
       - ./.env 
   web: 
-    image: dmortem/spidergroup:latest
+    build: ../spidergroup
     restart: always 
     volumes: 
-      - static_value:/app/spidergroup/static/
+      - static_value:/app/static/
     depends_on: 
       - db 
     env_file: 

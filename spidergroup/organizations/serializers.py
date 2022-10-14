@@ -63,4 +63,4 @@ class OrganizationSerializer(ModelSerializer):
 
     class Meta:
         model = Organization
-        fields = ('id', 'name', 'network', 'district', 'product',)
+        fields = ('id', 'name', 'description', 'network', 'district', 'product',)

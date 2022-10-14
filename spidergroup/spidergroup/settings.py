@@ -103,6 +103,9 @@ DJOSER = {
     'HIDE_USERS': False,
 }
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
